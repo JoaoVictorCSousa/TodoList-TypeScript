@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { TodoList, TodoList } from "../entities/todo.entities";
+import { DeleteResult, Repository } from "typeorm";
+import { TodoList } from "../entities/todo.entities";
 
 @Injectable()
 export class TodoListService {
@@ -28,5 +28,23 @@ export class TodoListService {
 
     async create(TodoList: TodoList) : Promise<TodoList>{
         return await this.todolistRepository.save(TodoList);
+    }
+
+    async update (TodoList: TodoList) : Promise<TodoList>{
+    let searchTodoList = await this.findById(TodoList.id);
+
+    if(!searchTodoList || !TodoList.id)
+    throw new HttpException('To Do List ID not found', HttpStatus.NOT_FOUND);
+
+    return await this.todolistRepository.save(TodoList); 
+
+    }
+
+    async delete (id: number) : Promise <DeleteResult> {
+        let searchTodoList = await this.findById(id)
+
+        if(!TodoList)
+        throw new HttpException('To Do List not found', HttpStatus.NOT_FOUND);
+        return await this.todolistRepository.delete(id)
     }
 }
