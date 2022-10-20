@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from "@nestjs/common";
 import { HttpStatus } from "@nestjs/common/enums";
 import { ParseIntPipe } from "@nestjs/common/pipes";
 import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
@@ -31,6 +31,13 @@ export class TodoListController {
     @HttpCode(HttpStatus.OK)
     delete (@Param('id', ParseIntPipe)id: number){
         return this.todolistService.delete(id)
+
+    }
+
+    @Put()
+    @HttpCode(HttpStatus.OK)
+    update(@Body()TodoList: TodoList): Promise< TodoList>{
+        return this.todolistService.update(TodoList)
     }
 
 }
