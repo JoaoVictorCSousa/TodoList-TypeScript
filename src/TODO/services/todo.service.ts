@@ -17,11 +17,9 @@ export class TodoListService {
 
     async findById(id: number): Promise<TodoList>{
         let list = await this.todolistRepository.findOne({
-        where: {
-            id
-        }
+        where: {id}
         });
-        if(!TodoList)
+        if(!list)
         throw new HttpException('To Do List not found', HttpStatus.NOT_FOUND);
         return list
     }
@@ -43,8 +41,8 @@ export class TodoListService {
     async delete (id: number) : Promise <DeleteResult> {
         let searchTodoList = await this.findById(id)
 
-        if(!TodoList)
-        throw new HttpException('To Do List not found', HttpStatus.NOT_FOUND);
+        if(!searchTodoList)
+            throw new HttpException('To Do List not found', HttpStatus.NOT_FOUND);
         return await this.todolistRepository.delete(id)
     }
 }

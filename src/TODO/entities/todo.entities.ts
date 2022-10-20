@@ -12,7 +12,7 @@ export class TodoList{
     To_do: string;
 
     @IsNotEmpty()
-    @Column({})
+    @Column()
     done: boolean;
 
 }
